@@ -7,10 +7,9 @@ const Todo = require('../models/todo')
 router.get('/', function (req, res) {
   Todo.find(function (err, output) {
     if (err) {
-      console.error(err)
-      return
+      return next(err)
     }
-  
+
     res.send(output)
   })
 })
@@ -18,8 +17,7 @@ router.get('/', function (req, res) {
 router.get('/:id', function (req, res) {
   Todo.findById(req.params.id, function (err, output) {
     if (err) {
-      console.error(err)
-      return
+      return next(err)
     }
     res.send('Todo with id: ' + output.name + ': ' + output.description)
   })
@@ -29,8 +27,7 @@ router.get('/:id', function (req, res) {
 router.post('/', function (req, res) {
   Todo.create(req.body, function (err, output) {
     if (err) {
-      console.error(err)
-      return
+      return next(err)
     }
     res.send(output)
   })
@@ -44,8 +41,7 @@ router.put('/:id', function (req, res) {
     completed: req.body.completed
   }, {new: true}, function (err, output) {
     if (err) {
-      console.error(err)
-      return
+      return next(err)
     }
     res.send(output)
   })
@@ -55,8 +51,7 @@ router.put('/:id', function (req, res) {
 router.delete('/:id', function (req, res) {
   Todo.findByIdAndRemove(req.params.id, function (err, output) {
     if (err) {
-      console.error(err)
-      return
+      return next(err)
     }
     res.send('Success deleting todo: ' + output)
   })

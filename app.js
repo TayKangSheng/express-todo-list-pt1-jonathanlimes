@@ -9,8 +9,15 @@ mongoose.Promise = global.Promise
 const todoController = require('./controllers/todoController')
 const bodyParser = require('body-parser') // to request for POST data
 
+// MIDDLEWARE
+app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use('/todos', todoController)
+app.use(function (err, req, res, next) {
+  res.send({
+    error: err.message
+  })
+})
 
 // TO LISTEN IN TO A PORT. PUT THIS AT THE BOTTOM OF EVERYTHING
 const port = process.env.PORT || 4000
