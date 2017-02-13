@@ -2,9 +2,9 @@
   "name": "express-todo-list",
   "version": "1.0.0",
   "description": "Express Todo List",
-  "main": "index.js",
+  "main": "app2.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon app2",
     "test": "node test/todo_tests.js"
   },
   "repository": {
@@ -12,6 +12,11 @@
     "url": "git+https://github.com/wdi-sg/express-todo-list-pt1.git"
   },
   "dependencies": {
+    "body-parser": "^1.16.1",
+    "ejs": "^2.5.5",
+    "express": "^4.14.1",
+    "mongoose": "^4.8.2",
+    "nodemon": "^1.11.0",
     "uuid": "^3.0.1"
   }
 }
