@@ -4,8 +4,8 @@ const mongoose = require('mongoose')
 const todoSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
-    minlength: 5
+    required: [true, 'No name for todo'],
+    minlength: [5, 'Name for todo short']
   },
   description: {
     type: String,
