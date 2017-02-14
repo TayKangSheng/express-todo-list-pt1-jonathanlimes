@@ -4,7 +4,7 @@ const router = express.Router()
 const Todo = require('../models/todo')
 
 // GET requests (READ)
-router.get('/', function (req, res) {
+router.get('/', function (req, res, next) {
   Todo.find(function (err, output) {
     if (err) {
       return next(err)
@@ -14,12 +14,35 @@ router.get('/', function (req, res) {
   })
 })
 
+// RENDER ON INDEX.EJS
+router.get('/index', function (req, res, next) {
+  Todo.find({}, function (err, output) {
+    if (err) {
+      return next(err)
+    }
+    res.render('./todos/index', {
+      allTodos: output
+    })
+  })
+})
+
 router.get('/:id', function (req, res, next) {
   Todo.findById(req.params.id, function (err, output) {
     if (err) {
-      return next({message: "Todo ID not valid"})
+      return next({message: 'Todo ID not valid'})
     }
-    res.send('Todo with id: ' + output.name + ': ' + output.description)
+    res.send(output)
+  })
+})
+
+router.get('/index/:id', function (req, res, next) {
+  Todo.findById(req.params.id, function (err, output) {
+    if (err) {
+      return next(err)
+    }
+    res.render('./todos/show', {
+      allTodos: output
+    })
   })
 })
 
@@ -27,9 +50,10 @@ router.get('/:id', function (req, res, next) {
 router.post('/', function (req, res, next) {
   Todo.create(req.body, function (err, output) {
     if (err) {
-      return next({message: "Todo post error"})
+      res.status(422).send({msg: 'Could not create todo because:' + err})
+      return next({message: 'Todo post error'})
     }
-    res.send(output)
+    res.redirect('/')
   })
 })
 
@@ -41,7 +65,7 @@ router.put('/:id', function (req, res, next) {
     completed: req.body.completed
   }, {new: true}, function (err, output) {
     if (err) {
-      return next({message: "Todo ID not valid. Update failed"})
+      return next({message: 'Todo ID not valid. Update failed'})
     }
     res.send(output)
   })
@@ -51,9 +75,9 @@ router.put('/:id', function (req, res, next) {
 router.delete('/:id', function (req, res, next) {
   Todo.findByIdAndRemove(req.params.id, function (err, output) {
     if (err) {
-      return next({message: "Todo ID not valid. Delete failed"})
+      return next({message: 'Todo ID not valid. Delete failed'})
     }
-    res.send('Success deleting todo: ' + output)
+    res.send({msg: 'success'})
   })
 })
 

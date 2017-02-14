@@ -21,6 +21,8 @@ app.use(function (err, req, res, next) {
 
 // TO LISTEN IN TO A PORT. PUT THIS AT THE BOTTOM OF EVERYTHING
 const port = process.env.PORT || 4000
-app.listen(port, function () {
+var server = app.listen(port, function () {
   console.log('Local todo list is running on port ' + port)
 })
+
+module.exports = server
